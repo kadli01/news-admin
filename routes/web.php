@@ -1,5 +1,7 @@
 <?php
 
+require_once(app_path('Helpers/Input.php'));
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,5 +14,20 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
+});
+
+Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function() {
+
+	Route::resource('news', 'NewsController');
+	Route::group(['prefix' => 'profile'], function() {
+		// Route::get('/edit', 'UserController@edit')->name('user.edit');
+		Route::get('/edit', function() {
+			dd('profile edit');
+		})->name('user.edit');
+	});
 });
