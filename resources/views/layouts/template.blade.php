@@ -24,7 +24,7 @@
 	{{-- <link href="public/css/admin.css" rel="stylesheet"> --}}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+	{{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
 	<link rel="stylesheet" type="text/css" href="/css/app.css">
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
@@ -45,10 +45,21 @@
 			<div class="menu-container">
 				<ul>
 					<li>
-						<a href="{{ route('news.index') }}">News</a>
+						<a @if(strpos(\Request::route()->getName(), 'news') !== false) class="active" @endif href="{{ route('news.index') }}">News</a>
 					</li>
 					<li>
-						<a href="{{ route('user.edit') }}">Profile</a>
+						<a @if(strpos(\Request::route()->getName(), 'profile') !== false) class="active" @endif href="{{ route('profile.edit') }}">Profile</a>
+					</li>
+					<li>
+						 <a  href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
 					</li>
 				</ul>
 			</div>
@@ -56,6 +67,7 @@
 		<!-- /#sidebar-wrapper -->
 
 		{{-- navbar on top --}}
+		@guest
 		<nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 {{-- <a class="navbar-brand" href="{{ url('/') }}">
@@ -74,10 +86,10 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @guest
+                        {{-- @guest --}}
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
-                        @else
+                        {{-- @else --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -95,11 +107,12 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                        {{-- @endguest --}}
                     </ul>
                 </div>
             </div>
         </nav>
+        @endguest
         {{-- NAVBAR on top END --}}
 
 		<!-- Page Content -->
@@ -119,7 +132,7 @@
 				</div>
 			@endif
 			<!-- Validation errors -->
-			@if (isset($errors) && count($errors) > 0)
+		{{-- 	@if (isset($errors) && count($errors) > 0)
 				<div class="alert alert-danger alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<ul>
@@ -128,7 +141,7 @@
 						@endforeach
 					</ul>
 				</div>
-			@endif
+			@endif --}}
 			
 
 			@yield('content')

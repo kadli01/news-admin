@@ -24,10 +24,12 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::resource('news', 'NewsController');
+	
 	Route::group(['prefix' => 'profile'], function() {
-		// Route::get('/edit', 'UserController@edit')->name('user.edit');
-		Route::get('/edit', function() {
-			dd('profile edit');
-		})->name('user.edit');
+		Route::get('/edit', 'ProfileController@edit')->name('profile.edit');
+		Route::put('/update', 'ProfileController@update')->name('profile.update');
+		// Route::get('/edit', function() {
+		// 	dd('profile edit');
+		// })->name('user.edit');
 	});
 });

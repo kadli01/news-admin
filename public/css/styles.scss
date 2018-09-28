@@ -577,11 +577,11 @@ input[type=date].form-control, input[type=time].form-control, input[type=datetim
 	font-weight: 700;
 	font-size: 1.25rem;
 	text-align: center;
-	padding: 17.5px 10px 17.5px 10px;
+	padding: 32px 10px 32px 10px;
 	background-color: #222;
 	border-right: 1px solid #121212;
 	position: fixed;
-	height: 70px;
+	height: 98px;
 	left: 0;
 	top: 0;
 	width: 250px;
@@ -589,7 +589,7 @@ input[type=date].form-control, input[type=time].form-control, input[type=datetim
 
 	a {
 		color: #fff;
-		font-size: 14px;
+		font-size: 20px;
 
 		&:hover {
 			color: $primary;
@@ -609,6 +609,7 @@ input[type=date].form-control, input[type=time].form-control, input[type=datetim
 	width: 250px;
 	background-color: #fff;
 	overflow: auto;
+	border-right: 1px solid lightgrey;
 
 	&::-webkit-scrollbar {
 		display: none;
@@ -623,7 +624,7 @@ input[type=date].form-control, input[type=time].form-control, input[type=datetim
 	.menu-container {
 
 		border-right: 1px solid #eee;
-		padding-top: 85px;
+		padding-top: 110px;
 		padding-bottom: 15px;
 
 		.separator {
@@ -655,7 +656,8 @@ input[type=date].form-control, input[type=time].form-control, input[type=datetim
 		}
 		
 		a:hover {
-			background-color: #f8f8f8;
+			background-color: lightgrey;
+			border-left-color: lightgrey;
 		}
 		
 		a.active {
@@ -866,12 +868,12 @@ input[type=date].form-control, input[type=time].form-control, input[type=datetim
 	.dashboard-header {
 		
 		padding: 15px 25px;
-		position: fixed;
+		// position: fixed;
 		left: 250px;
 		top: 70px;
 		right: 0;
 		z-index: 1030;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid lightgrey;
 		background-color: #fff;
 
 		h1 {
@@ -1429,9 +1431,9 @@ input:checked + .slider:before {
 	z-index: 3000;
 }
 
-.main {
-	padding-top: 168px;
-}
+// .main {
+// 	padding-top: 168px;
+// }
 
 .btn-td {
 
