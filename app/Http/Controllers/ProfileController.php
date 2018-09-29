@@ -22,8 +22,8 @@ class ProfileController extends Controller
     	$validator = Validator::make($request->all(),
 		[
 			'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
+            'password' => 'nullable|string|min:6|confirmed',
 		]);
 
 		if($validator->fails())

@@ -979,7 +979,10 @@ input[type=date].form-control, input[type=time].form-control, input[type=datetim
 	
 	margin-bottom: 0;
 	border-radius: 0px;
-	
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0%);
+
 	.close,
 	.close:hover,
 	.close:focus {

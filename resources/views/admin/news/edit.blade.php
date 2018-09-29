@@ -3,7 +3,7 @@
 @section('content')
 <form action="{{ route('news.update', ['id' => $news->id]) }}" method="POST" enctype="multipart/form-data">
 	<div class="dashboard-header">
-		<h1>{{ $news->title }}<h1>
+		<h1>{{ $news->title }}</h1>
 		<small>Edit news</small>
 		<button type="submit" class="btn btn-lg btn-success pull-right" id="submit-form">Save</button>
 	</div>
