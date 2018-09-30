@@ -174,4 +174,11 @@ class NewsController extends Controller
 	{
 		//
 	}
+
+	public function getNews()
+	{
+		$newsList = News::paginate(10);
+
+		return response()->json(['data' => $newsList], 200);
+	}
 }
