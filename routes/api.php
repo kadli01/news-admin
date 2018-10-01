@@ -17,4 +17,5 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/news', 'NewsController@getNews');
+Route::get('/news', 'NewsController@getNewsList');
+Route::get('/news/{id}', 'NewsController@getNews');

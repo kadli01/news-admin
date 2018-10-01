@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use \Validator;
 use Auth;
 use App\News;
+use Intervention\Image\Facades\Image;
+
 
 class NewsController extends Controller
 {
@@ -17,7 +19,7 @@ class NewsController extends Controller
 	public function index()
 	{
 		$user = Auth::user();
-		$newsList = $user->news()->orderBy('updated_at', 'DESC')->paginate(10);
+		$newsList = $user->news()->orderBy('created_at', 'DESC')->paginate(10);
 
 		return view('admin.news.index', compact('newsList'));
 	}
@@ -42,7 +44,6 @@ class NewsController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		// TODO: image upload
 		$validator = Validator::make($request->all(),
 		[
 			'title'			=> 'required|string|max:255',
@@ -66,11 +67,13 @@ class NewsController extends Controller
 		$news->description 	= $request->description;
 		$news->user_id	 	= Auth::user()->id;
 
-		if ($request->featured_image) 
-		{
-		    $news->featured_image = $request->featured_image;
+		if($image = $request->file('featured_image')){
+			$image = Image::make($request->featured_image);
+			$filename = uniqid() . '.' . $request->featured_image->getClientOriginalExtension();
+			\Storage::disk('local')->put('public/img/' . $filename, (string) $image->encode());
+			$news->featured_image = $filename;
 		} else {
-		    $news->featured_image = '';
+			$news->featured_image = '';
 		}
 
 		if ($news->save()) 
@@ -126,7 +129,6 @@ class NewsController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		// TODO: image upload
 		$validator = Validator::make($request->all(),
 		[
 			'title'			=> 'required|string|max:255',
@@ -149,11 +151,15 @@ class NewsController extends Controller
 		$news->excerpt		= $request->excerpt;
 		$news->description 	= $request->description;
 		
-		if ($request->featured_image) 
-		{
-		    $news->featured_image = $request->featured_image;
+		if($image = $request->file('featured_image')){
+			\Storage::disk('local')->delete('public/img/' . $news->featured_image);
+
+			$image = Image::make($request->featured_image);
+			$filename = uniqid() . '.' . $request->featured_image->getClientOriginalExtension();
+			\Storage::disk('local')->put('public/img/' . $filename, (string) $image->encode());
+			$news->featured_image = $filename;
 		} else {
-		    $news->featured_image = '';
+			$news->featured_image = '';
 		}
 
 		if ($news->save()) 
@@ -175,10 +181,23 @@ class NewsController extends Controller
 		//
 	}
 
-	public function getNews()
-	{
-		$newsList = News::paginate(10);
 
-		return response()->json(['data' => $newsList], 200);
+
+	public function getNewsList()
+	{
+		// $newsList = News::orderBy('created_at', 'DESC')->paginate(10);
+		$newsList = News::orderBy('created_at', 'DESC')->with('user')->get();
+
+		return response()->json($newsList, 200);
+	}
+
+	public function getNews($id){
+		$news = News::where('id', $id)->with('user')->first();
+
+		if ($news) {
+			return response()->json($news, 200);
+		} else {
+			return response()->json([], 404);
+		}
 	}
 }

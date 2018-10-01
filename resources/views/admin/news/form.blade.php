@@ -15,7 +15,14 @@
         </div>
     </div>
 
-	<div class="form-group row">
+        @if($news->featured_image)
+            <div class="row">
+                <div class="col-md-6 offset-md-2">
+                    <img src={{env('APP_URL') . "/storage/img/" . $news->featured_image}}>
+                </div>
+            </div>
+        @endif
+    <div class="form-group row">
         <label for="featured_image" class="col-md-2 col-form-label text-md-right">{{ __('Image') }}</label>
 
         <div class="col-md-6">

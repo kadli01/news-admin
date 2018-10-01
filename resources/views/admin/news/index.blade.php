@@ -14,7 +14,6 @@
 				<th>ID</th>
 				<th>Title</th>
 				<th>Image</th>
-				<th>Excerpt</th>
 				<th>Created at</th>
 				<th>Actions</th>
 			</tr>
@@ -25,8 +24,11 @@
 					<tr>
 						<td>{{ $news->id }}</td>
 						<td><a href="{{ route('news.show', ['id' => $news->id]) }}">{{ $news->title }}</a></td>
-						<td>{{ $news->image }}</td>
-						<td>{{ $news->excerpt }}</td>
+						<td>
+							@if($news->featured_image)
+								<img src="/storage/img/{{ $news->featured_image }}"/>
+							@endif
+						</td>
 						<td>{{ $news->created_at }}</td>
 						<td class="btn-td">
 							<div class="dropdown">
