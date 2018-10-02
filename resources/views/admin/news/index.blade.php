@@ -35,13 +35,12 @@
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Actions
 								<span class="caret"></span></button>
 								<ul class="dropdown-menu">
-								<li><a href="{{ route('news.show', ['id' => $news->id]) }}"> View</a></li>
 								<li><a href="{{ route('news.edit', ['id' => $news->id]) }}"> Edit</a></li>
 								<form action="{{ route('news.destroy', ['id' => $news->id]) }}" method="post" enctype="multipart/form-data">
 									{{ csrf_field() }}
 									{{ method_field('DELETE') }}
 									<li>
-										<input type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure you want to delete this item: {{ $news->name }}?')">
+										<input type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure you want to delete this item: {{ $news->title }}?')">
 									</li>
 								</form>
 								</ul>

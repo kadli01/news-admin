@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use \Auth;
 use \Validator;
+use \Hash;
 
 class ProfileController extends Controller
 {
@@ -33,6 +34,16 @@ class ProfileController extends Controller
 						->withErrors($validator)
 						->withInput();
 		}
-		dd($request->all());
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        
+		$user->save();
+        return redirect()->back()->withSuccess('Profile successfully updated!');
     }
 }

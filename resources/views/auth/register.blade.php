@@ -61,6 +61,24 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+
+                            <div class="form-check"></div>
+                                <label class="col-md-4 form-check-label text-md-right" for="privacy_policy">
+                                    {{ __('Accept privacy policy') }}
+                                </label>
+                            <div class="col-md-6">
+                                <input class="form-check-input {{ $errors->has('privacy_policy') ? ' is-invalid' : '' }}" type="checkbox" name="privacy_policy" id="privacy_policy" {{ old('privacy_policy') ? 'checked' : '' }}>
+                                
+                                @if ($errors->has('privacy_policy'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('privacy_policy') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

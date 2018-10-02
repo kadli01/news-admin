@@ -19,6 +19,7 @@ class CreateNewsTable extends Migration
             $table->string('title');
             $table->string('featured_image')->nullable();
             $table->string('excerpt');
+            $table->boolean('visibility')->default(1);
             $table->text('description');
             $table->softDeletes();
             $table->timestamps();

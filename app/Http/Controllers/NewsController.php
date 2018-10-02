@@ -67,6 +67,10 @@ class NewsController extends Controller
 		$news->description 	= $request->description;
 		$news->user_id	 	= Auth::user()->id;
 
+		if ($request->visibility) {
+			$news->visibility = $request->visibility;
+		}
+
 		if($image = $request->file('featured_image')){
 			$image = Image::make($request->featured_image);
 			$filename = uniqid() . '.' . $request->featured_image->getClientOriginalExtension();
@@ -150,8 +154,11 @@ class NewsController extends Controller
 		$news->title 		= $request->title;
 		$news->excerpt		= $request->excerpt;
 		$news->description 	= $request->description;
+		// dd($request->all());
 		
-		if($image = $request->file('featured_image')){
+		$news->visibility = $request->visibility;
+			
+		if($image = $request->file('featured_image') && $request->featured_image != null){
 			\Storage::disk('local')->delete('public/img/' . $news->featured_image);
 
 			$image = Image::make($request->featured_image);
@@ -178,7 +185,16 @@ class NewsController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		$news = News::where('id', $id)->first();
+
+		if(!$news)
+		{
+			return redirect()->back()->withErrors('News not found');
+		}
+
+		$news->delete();
+
+		return redirect()->back()->withSuccess('News successfully deleted!');		
 	}
 
 
@@ -186,13 +202,19 @@ class NewsController extends Controller
 	public function getNewsList()
 	{
 		// $newsList = News::orderBy('created_at', 'DESC')->paginate(10);
-		$newsList = News::orderBy('created_at', 'DESC')->with('user')->get();
+		$newsList = News::orderBy('created_at', 'DESC')
+						->where('visibility', 1)
+						->with('user')
+						->get();
 
 		return response()->json($newsList, 200);
 	}
 
 	public function getNews($id){
-		$news = News::where('id', $id)->with('user')->first();
+		$news = News::where('id', $id)
+					->where('visibility', 1)
+					->with('user')
+					->first();
 
 		if ($news) {
 			return response()->json($news, 200);
