@@ -96,11 +96,11 @@ class NewsController extends Controller
 	 */
 	public function show($id)
 	{
-		$news = News::where('id', $id)->first();
+		$news = Auth::user()->news()->where('id', $id)->first();
 
 		if(!$news)
 		{
-			return redirect()->back()->withErrors('News not found');
+			return redirect()->back()->withError('News not found');
 		}
 
 		return view('admin.news.show', compact('news'));
@@ -114,11 +114,11 @@ class NewsController extends Controller
 	 */
 	public function edit($id)
 	{
-		$news = News::where('id', $id)->first();
+		$news = Auth::user()->news()->where('id', $id)->first();
 
 		if(!$news)
 		{
-			return redirect()->back()->withErrors('News not found');
+			return redirect()->back()->withError('News not found');
 		}
 
 		return view('admin.news.edit', compact('news'));
@@ -149,7 +149,12 @@ class NewsController extends Controller
 						->withInput();
 		}
 
-		$news = News::where('id', $id)->first();
+		$news = Auth::user()->news()->where('id', $id)->first();
+
+		if(!$news)
+		{
+			return redirect()->back()->withError('News not found');
+		}
 
 		$news->title 		= $request->title;
 		$news->excerpt		= $request->excerpt;
@@ -189,7 +194,7 @@ class NewsController extends Controller
 
 		if(!$news)
 		{
-			return redirect()->back()->withErrors('News not found');
+			return redirect()->back()->withError('News not found');
 		}
 
 		$news->delete();
