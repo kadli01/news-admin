@@ -190,7 +190,7 @@ class NewsController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$news = News::where('id', $id)->first();
+		$news = Auth::user()->news()->where('id', $id)->first();
 
 		if(!$news)
 		{
